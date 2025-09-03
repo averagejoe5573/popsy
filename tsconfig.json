@@ -6,7 +6,8 @@
         "rootDir": "./src",
         "strict": true,
         "types": [
-            "node"
+            "node",
+            "vitest/globals"
         ],
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,

@@ -1,34 +1,35 @@
-// tests/Args.test.ts
-import { describe, it, expect } from 'vitest'
-import { Args } from '../src/Args'
+import { describe, it, expect } from "vitest";
+import { Args } from "../src/args";
+import { Log } from "../src/log";
+import { LogLevel } from "../src/constants";
 
-function mockArgv(args: string[]) {
-    const originalArgv = process.argv
-    process.argv = ['node', 'popsy', ...args]
-    return () => { process.argv = originalArgv }
-}
+describe("Args", () => {
+    it("parses provided options", () => {
+        const log = new Log(LogLevel.DEBUG);
+        const args = new Args(log, {
+            msa: "file.fasta",
+            parsimonyIterations: 5,
+            logLevel: LogLevel.DEBUG,
+            concurrency: 2,
+            maxConcurrency: false,
+        });
 
-describe('Args', () => {
-    it('parses msa and iterations correctly', () => {
-        const restoreArgv = mockArgv(['--msa', 'alignment.fasta', '--iterations', '42'])
-        const args = new Args()
-        restoreArgv()
+        expect(args.msa).toBe("file.fasta");
+        expect(args.parsimonyIterations).toBe(5);
+        expect(args.concurrency).toBe(2);
+    });
 
-        expect(args.msa).toBe('alignment.fasta')
-        expect(args.iterations).toBe(42)
-    })
+    it("falls back to defaults if invalid", () => {
+        const log = new Log();
+        const args = new Args(log, {
+            msa: "file.fasta",
+            parsimonyIterations: -1,
+            logLevel: LogLevel.INFO,
+            concurrency: -1,
+            maxConcurrency: false,
+        });
 
-    it('defaults iterations to 100 when not provided', () => {
-        const restoreArgv = mockArgv(['--msa', 'alignment.fasta'])
-        const args = new Args()
-        restoreArgv()
-
-        expect(args.iterations).toBe(100)
-    })
-
-    it('throws an error if iterations <= 0', () => {
-        const restoreArgv = mockArgv(['--msa', 'alignment.fasta', '--iterations', '0'])
-        expect(() => new Args()).toThrow('Iterations must be greater than 0')
-        restoreArgv()
-    })
-})
+        expect(args.parsimonyIterations).toBeGreaterThan(0);
+        expect(args.concurrency).toBeGreaterThan(0);
+    });
+});
