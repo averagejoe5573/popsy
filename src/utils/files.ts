@@ -3,7 +3,7 @@ import { join } from "path";
 import { RESULTS_PATH } from "../constants";
 import { Log } from "../log";
 import pLimit from "p-limit";
-import { readdir } from "fs/promises";
+import { readdir, readFile, writeFile } from "fs/promises";
 import { getTimestamp } from "./time";
 import { executeCommand } from "./commands";
 
@@ -57,4 +57,34 @@ export async function moveFiles(
     );
 
     log.info(`All files matching "${pattern}" moved successfully.`);
+}
+
+export async function concatFiles(
+    pattern: string,
+    outputFile: string,
+    log: Log
+): Promise<void> {
+    const files = await readdir(process.cwd());
+
+    const regex = new RegExp("^" + pattern.split("*").map(s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$");
+
+    const matchedFiles = files.filter(f => regex.test(f));
+
+    if (matchedFiles.length === 0) {
+        log.warn(`No files matching pattern "${pattern}" found to concatenate.`);
+        return;
+    }
+
+    log.info(`Found ${matchedFiles.length} files. Concatenating into ${outputFile}...`);
+
+    let combinedContent = "";
+
+    for (const file of matchedFiles) {
+        const content = await readFile(join(process.cwd(), file), "utf-8");
+        combinedContent += content;
+        log.debug(`Added ${file}`);
+    }
+
+    await writeFile(outputFile, combinedContent, "utf-8");
+    log.info(`Concatenation complete. Output file: ${outputFile}`);
 }
