@@ -1,5 +1,5 @@
 import { LogLevel } from "./constants";
-import { getTimestamp } from "./utils";
+import { getTimestamp } from "./utils/time";
 
 /**
  * Simple logger with timestamp and log levels.

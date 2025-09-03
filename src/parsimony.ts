@@ -1,4 +1,5 @@
-import { executeCommand, CommandResult } from "./utils";
+import { executeCommand, CommandResult, } from "./utils/commands";
+import { moveFiles } from "./utils/files";
 import { libPath, mpbootPath, LogLevel, MAX_CONCURRENCY } from "./constants";
 import { join } from "path";
 import { Args } from "./args";
@@ -20,7 +21,7 @@ export class ParsimonyAnalysis {
      * Execute parsimony iterations
      * @param folderPath The working directory where MPBoot will generate output files
      */
-    public async executeParsimonyAnalysis(folderPath?: string): Promise<ParsimonyResult[]> {
+    public async executeParsimonyAnalysis(folderPath: string): Promise<ParsimonyResult[]> {
         const parsimonyPath = join(process.cwd(), libPath, mpbootPath);
         const concurrency = this.args.maxConcurrency ? MAX_CONCURRENCY : this.args.concurrency;
         const limit = pLimit(concurrency);
@@ -50,9 +51,8 @@ export class ParsimonyAnalysis {
                 }
             })
         ));
-
-        const cmd = `mv iteration* ${folderPath}`
-        await executeCommand(cmd)
+        await moveFiles("iteration.*", folderPath, this.log, this.args.concurrency);
+        // await moveFiles("iteration.*\\.treefile", folderPath, this.log, this.args.concurrency);
         this.log.info("[Parsimony] All jobs complete.");
         return results;
     }

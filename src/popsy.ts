@@ -1,6 +1,8 @@
 import { Args } from "./args";
 import { Log } from "./log";
-import { createTimestampFolder, handleCommandError, formatDuration } from "./utils";
+import { formatDuration } from "./utils/time";
+import { createTimestampFolder } from "./utils/files";
+import { handleCommandError } from "./utils/commands";
 import { ParsimonyAnalysis } from "./parsimony";
 import { performance } from "perf_hooks";
 import { MAX_CONCURRENCY } from "./constants";

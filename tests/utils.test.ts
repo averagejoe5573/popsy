@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { executeCommand, createTimestampFolder, CommandResult } from '../src/utils';
+import { executeCommand, CommandResult } from '../src/utils/commands';
+import { createTimestampFolder } from '../src/utils/files';
+
 import { spawn } from 'child_process';
 
 // Mock fs functions

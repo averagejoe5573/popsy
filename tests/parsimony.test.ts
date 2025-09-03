@@ -3,11 +3,12 @@ import { ParsimonyAnalysis } from "../src/parsimony";
 import { Args } from "../src/args";
 import { Log } from "../src/log";
 import { LogLevel } from "../src/constants";
-import * as utils from "../src/utils";
+import * as utils from "../src/utils/commands";
 
 describe("ParsimonyAnalysis", () => {
     let log: Log;
     let args: Args;
+    let folderPath = ""
 
     beforeEach(() => {
         log = new Log(LogLevel.DEBUG);
@@ -28,7 +29,7 @@ describe("ParsimonyAnalysis", () => {
 
     it("runs parsimony jobs", async () => {
         const analysis = new ParsimonyAnalysis(args, log);
-        const results = await analysis.executeParsimonyAnalysis();
+        const results = await analysis.executeParsimonyAnalysis(folderPath);
         expect(results).toHaveLength(2);
         expect(results[0]).toHaveProperty("stdout", "ok");
     });
@@ -37,7 +38,7 @@ describe("ParsimonyAnalysis", () => {
         (utils.executeCommand as any).mockRejectedValueOnce(new Error("fail"));
 
         const analysis = new ParsimonyAnalysis(args, log);
-        const results = await analysis.executeParsimonyAnalysis();
+        const results = await analysis.executeParsimonyAnalysis(folderPath);
         expect(results[0]).toHaveProperty("error");
     });
 });
