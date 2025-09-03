@@ -3,6 +3,7 @@ import { Log } from "./log";
 import { createTimestampFolder, handleCommandError, formatDuration } from "./utils";
 import { ParsimonyAnalysis } from "./parsimony";
 import { performance } from "perf_hooks";
+import { MAX_CONCURRENCY } from "./constants";
 
 /**
  * Popsy pipeline executor
@@ -32,8 +33,9 @@ export class Popsy {
         this.log.info("Running Popsy with arguments:");
         this.log.info(`MSA file: ${this.args.msa}`);
         this.log.info(`Iterations: ${this.args.parsimonyIterations}`);
-        this.log.info(`Concurrency: ${this.args.concurrency}`);
-        this.log.info(`Max concurrency: ${this.args.maxConcurrency}`);
+        this.args.maxConcurrency
+            ? this.log.info(`Max concurrency: ${this.args.maxConcurrency} (${MAX_CONCURRENCY})`)
+            : this.log.info(`Concurrency: ${this.args.concurrency}`);
         this.log.debug("DEBUG: Logger working");
 
         // Run parsimony analysis inside the timestamp folder
