@@ -8,6 +8,8 @@ export const mpbootPath = "mpboot-avx";
 export const iqtreePath = "iqtree2"
 export const RESULTS_PATH = "results";
 
+export const PARSIMONY_FILE_NAME = "parsimony-iteration-"
+
 /**
  * Default parameters
  */

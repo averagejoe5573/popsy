@@ -1,6 +1,6 @@
 import { executeCommand, CommandResult, } from "../system/commands";
 import { moveFiles, concatFiles } from "../system/files";
-import { libPath, mpbootPath, LogLevel, MAX_CONCURRENCY } from "../common/constants";
+import { libPath, mpbootPath, LogLevel, MAX_CONCURRENCY, PARSIMONY_FILE_NAME } from "../common/constants";
 import { join } from "path";
 import { Args } from "../cli/args";
 import { Log } from "../common/log";
@@ -25,7 +25,7 @@ export class ParsimonyAnalysis {
         const results: ParsimonyResult[] = [];
         const iterations = Array.from({ length: this.args.parsimonyIterations }, (_, i) => [
             "-s", this.args.msa,
-            `-pre`, `iteration${i + 1}`
+            `-pre`, `${PARSIMONY_FILE_NAME}${i + 1}`
         ]);
 
         // Execute jobs in parallel with concurrency limit
@@ -47,9 +47,9 @@ export class ParsimonyAnalysis {
                 }
             })
         ));
-        await concatFiles("iteration*.treefile", join(folderPath,
+        await concatFiles(`${PARSIMONY_FILE_NAME}*.treefile`, join(folderPath,
             "parsimony_combined.treefile"), this.log);
-        await moveFiles("iteration.*", folderPath, this.log, this.args.concurrency);
+        await moveFiles(`${PARSIMONY_FILE_NAME}.*`, folderPath, this.log, this.args.concurrency);
         // await moveFiles("iteration.*\\.treefile", folderPath, this.log, this.args.concurrency);
         this.log.info("[Parsimony] All jobs complete.");
         return results;
