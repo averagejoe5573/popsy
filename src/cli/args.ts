@@ -75,10 +75,9 @@ export class Args {
     }
 
     /** Ensure required arguments are present */
-    private validateRequiredArgs() {
-        if (!this.msa) {
-            this.log.error("Error: --msa argument is required");
-            process.exit(1);
+    private validateRequiredArgs(): void {
+        if (typeof this.msa !== "string" || this.msa.trim().length === 0) {
+            throw new Error("Missing required argument: --msa (must be a valid file path).");
         }
     }
 

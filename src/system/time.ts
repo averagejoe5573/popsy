@@ -1,8 +1,8 @@
-/** Returns timestamp: HH-MM-SS_DD-MM-YYYY */
+/** Returns timestamp: DD-MM-YYYY_HH:MM:SS */
 export function getTimestamp(): string {
     const now = new Date();
     const pad = (n: number) => n.toString().padStart(2, "0");
-    return `${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}_${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${now.getFullYear()}`;
+    return `${pad(now.getDate())}-${pad(now.getMonth() + 1)}-${now.getFullYear()}_${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 }
 
 /** Convert ms to HH:MM:SS */
