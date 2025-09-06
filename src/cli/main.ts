@@ -1,5 +1,10 @@
+#!/usr/bin/env node
+
 import { Popsy } from "../pipeline/popsy";
 import { Log } from "../common/log";
+import { checkNodeVersion } from "../system/utils";
+
+checkNodeVersion()
 
 async function main() {
     const log = new Log();

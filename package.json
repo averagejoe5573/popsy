@@ -6,9 +6,17 @@
   "author": "",
   "type": "commonjs",
   "main": "index.js",
+  "bin": {
+    "popsy": "build/cli/main.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "build": "tsc",
     "test": "vitest",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start": "node build/cli/main.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -22,5 +30,6 @@
     "typescript": "^5.9.2",
     "vitest": "^3.2.4",
     "zod": "^4.1.1"
-  }
+  },
+  "packageManager": "pnpm@10.3.0+sha512.ee592eda8815a8a293c206bb0917c4bb0ff274c50def7cbc17be05ec641fc2d1b02490ce660061356bd0d126a4d7eb2ec8830e6959fb8a447571c631d5a2442d"
 }

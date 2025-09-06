@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "ES2020",
-        "module": "CommonJS",
+        "target": "ES2022",
+        "module": "nodenext",
         "outDir": "./build",
         "rootDir": "./src",
         "strict": true,
@@ -9,15 +9,24 @@
             "node",
             "vitest/globals"
         ],
+        "lib": [
+            "ES2022"
+        ],
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-        "moduleResolution": "node",
+        "moduleResolution": "nodenext",
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "noImplicitAny": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "declaration": false,
+        "removeComments": false,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitOverride": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true
     },
     "include": [
         "src/**/*"

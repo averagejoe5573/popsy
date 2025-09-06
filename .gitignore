@@ -9,6 +9,8 @@ node_modules
 
 # Phylogenetic files
 *.phy*
+parsimony-iteration*
+likelihood*
 
 # Previous run results
 /results

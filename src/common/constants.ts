@@ -3,6 +3,8 @@ import os from "os";
 /**
  * Paths and defaults for Popsy
  */
+export const MIN_NODE_VERSION = 18;
+
 export const libPath = "./lib";
 export const mpbootPath = "mpboot-avx";
 export const iqtreePath = "iqtree2"
